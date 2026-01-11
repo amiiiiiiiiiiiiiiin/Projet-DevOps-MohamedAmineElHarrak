@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  devops-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devops-app-container
+    image: devops-app:latest
+    restart: unless-stopped
+    # ports:
+    #   - "8080:8080"
+    networks:
+      - devops-network
+
+networks:
+  devops-network:
+    driver: bridge
+
