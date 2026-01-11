@@ -86,37 +86,45 @@ pipeline {
         success {
             echo 'Pipeline succeeded!'
             script {
-                // Notification Slack en cas de succès
-                slackSend(
-                    channel: env.SLACK_CHANNEL,
-                    color: 'good',
-                    message: """
-                        ✅ *Pipeline réussi!*
-                        *Projet:* ${env.JOB_NAME}
-                        *Build #:* ${env.BUILD_NUMBER}
-                        *Branche:* ${env.GIT_BRANCH}
-                        *Statut:* Succès
-                        *Console:* ${env.BUILD_URL}
-                    """
-                )
+                // Notification Slack en cas de succès (optionnel)
+                try {
+                    slackSend(
+                        channel: env.SLACK_CHANNEL,
+                        color: 'good',
+                        message: """
+                            ✅ *Pipeline réussi!*
+                            *Projet:* ${env.JOB_NAME}
+                            *Build #:* ${env.BUILD_NUMBER}
+                            *Branche:* ${env.GIT_BRANCH}
+                            *Statut:* Succès
+                            *Console:* ${env.BUILD_URL}
+                        """
+                    )
+                } catch (Exception e) {
+                    echo "Slack notification failed (non bloquant): ${e.getMessage()}"
+                }
             }
         }
         failure {
             echo 'Pipeline failed!'
             script {
-                // Notification Slack en cas d'échec
-                slackSend(
-                    channel: env.SLACK_CHANNEL,
-                    color: 'danger',
-                    message: """
-                        ❌ *Pipeline échoué!*
-                        *Projet:* ${env.JOB_NAME}
-                        *Build #:* ${env.BUILD_NUMBER}
-                        *Branche:* ${env.GIT_BRANCH}
-                        *Statut:* Échec
-                        *Console:* ${env.BUILD_URL}
-                    """
-                )
+                // Notification Slack en cas d'échec (optionnel)
+                try {
+                    slackSend(
+                        channel: env.SLACK_CHANNEL,
+                        color: 'danger',
+                        message: """
+                            ❌ *Pipeline échoué!*
+                            *Projet:* ${env.JOB_NAME}
+                            *Build #:* ${env.BUILD_NUMBER}
+                            *Branche:* ${env.GIT_BRANCH}
+                            *Statut:* Échec
+                            *Console:* ${env.BUILD_URL}
+                        """
+                    )
+                } catch (Exception e) {
+                    echo "Slack notification failed (non bloquant): ${e.getMessage()}"
+                }
             }
         }
         always {
