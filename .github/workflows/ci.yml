@@ -24,6 +24,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Build and Test with Maven
+      working-directory: ./devops-app
       run: mvn clean test package
 
     - name: Upload JAR artifact
@@ -32,3 +33,4 @@ jobs:
         name: devops-app-jar
         path: devops-app/target/*.jar
         retention-days: 7
+
