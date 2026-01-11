@@ -1,9 +1,14 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'M3'  // Utilise Maven avec l'ID 'M3' (doit être configuré dans Jenkins)
+        jdk 'JDK17' // Utilise JDK 17 avec l'ID 'JDK17' (doit être configuré dans Jenkins)
+    }
+
     environment {
-        // Configuration pour Slack (à remplacer par vos valeurs)
-        SLACK_WEBHOOK_URL = credentials('slack-webhook-url')
+        // Configuration pour Slack (optionnel - commenté si non configuré)
+        // SLACK_WEBHOOK_URL = credentials('slack-webhook-url')
         SLACK_CHANNEL = '#devops-notifications'
     }
 
